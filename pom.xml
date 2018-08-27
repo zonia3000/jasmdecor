@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    
+    <groupId>net.zonia3000</groupId>
+    <artifactId>jasmdecor</artifactId>
+    <version>1.0</version>
+    <packaging>jar</packaging>
+    
+    <name>jasmdecor</name>
+    <description>Decorator generator based on Java ASM bytecode manipulation framework</description>
+    <url>https://github.com/zonia3000/jasmdecor</url>
+
+    <developers>
+        <developer>
+            <email>zonia3000@gmail.com</email>
+            <name>Sonia Zorba</name>
+            <url>https://github.com/zonia3000</url>
+            <id>zonia3000</id>
+        </developer>
+    </developers>
+    
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <asm.version>6.2.1</asm.version>
+    </properties>
+        
+    <dependencies>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+            <version>${asm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-util</artifactId>
+            <version>${asm.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <!-- Generates the testing decorators -->
+                <artifactId>exec-maven-plugin</artifactId>
+                <groupId>org.codehaus.mojo</groupId>
+                <version>1.6.0</version>
+                <executions>  
+                    <execution>
+                        <id>generating-decorators</id>
+                        <phase>process-test-classes</phase>
+                        <goals>  
+                            <goal>java</goal>  
+                        </goals>
+                        <configuration>
+                            <classpathScope>test</classpathScope>
+                            <mainClass>net.zonia3000.jasmdecor.TestClassesPostProcessor</mainClass>
+                            <arguments>
+                                <argument>${project.build.testOutputDirectory}</argument>
+                            </arguments>
+                        </configuration>  
+                    </execution>  
+                </executions>
+            </plugin>
+            <plugin>
+                <!-- Generates the executable jar -->
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>3.1.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                        <configuration>
+                            <transformers>
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                    <mainClass>net.zonia3000.jasmdecor.CLI</mainClass>
+                                </transformer>
+                            </transformers>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    
+    <issueManagement>
+        <url>https://github.com/zonia3000/jasmdecor/issues</url>
+        <system>GitHub Issues</system>
+    </issueManagement>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <scm>
+        <url>https://github.com/zonia3000/jasmdecor</url>
+        <connection>scm:git:git://github.com/zonia3000/jasmdecor.git</connection>
+        <developerConnection>scm:git:git@github.com:zonia3000/jasmdecor.git</developerConnection>
+    </scm>
+</project>
