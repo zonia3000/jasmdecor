@@ -4,7 +4,7 @@
     
     <groupId>net.zonia3000</groupId>
     <artifactId>jasmdecor</artifactId>
-    <version>1.0</version>
+    <version>0.1.0</version>
     <packaging>jar</packaging>
     
     <name>jasmdecor</name>

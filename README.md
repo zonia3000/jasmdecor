@@ -46,7 +46,7 @@ public class DecoratorFromTemplate {
 
     private final Iface wrapped;
 
-    public Decorator(Iface wrapped) {
+    public DecoratorFromTemplate(Iface wrapped) {
         this.wrapped = wrapped;
     }
 
@@ -70,7 +70,7 @@ public class DecoratorFromTemplate implements Iface {
 
     private final Iface wrapped;
 
-    public Decorator(Iface wrapped) {
+    public DecoratorFromTemplate(Iface wrapped) {
         this.wrapped = wrapped;
     }
 
@@ -91,9 +91,15 @@ This project contains also a command line interface.
 
     java -jar jasmdecor.jar <class-to-decorate> <decorator-name-or-template> <output-file>
 
-Example:
+Example for a plain decorator without additional classes:
 
-    java -jar target/jasmdecor-1.0.jar java.sql.PreparedStatement PSDecor PSDecor.class
+    java -jar jasmdecor.jar java.sql.PreparedStatement PSDecor PSDecor.class
+
+Example for a decorator from template using additional classes (you have to add them to the classpath):
+
+    java -cp ".:jasmdecor.jar" net.zonia3000.jasmdecor.CLI Iface DecoratorFromTemplate DecoratorFromTemplate.class
+
+(on Windows replace `:` with `;`)
 
 ## Additional notes
 
